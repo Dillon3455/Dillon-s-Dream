@@ -1,0 +1,12 @@
+---
+import { SITE_TITLE } from '../consts';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-white/[0.06] py-12">
+	<div class="mx-auto flex w-full max-w-5xl flex-col items-center justify-between gap-3 px-6 text-sm text-zinc-500 sm:flex-row">
+		<p>© {year} {SITE_TITLE}</p>
+		<a href="/blog/" class="transition hover:text-zinc-200">Сделано с вайбом и чашкой кофе ✨</a>
+	</div>
+</footer>

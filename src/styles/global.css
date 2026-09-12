@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+:root {
+	color-scheme: dark;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	font-family: var(--font-atkinson), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+	background-color: #09090b;
+	color: #e4e4e7;
+	line-height: 1.7;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
+}
+
+::selection {
+	background-color: rgba(167, 139, 250, 0.3);
+	color: #fff;
+}
+
+a {
+	color: inherit;
+}
+
+/* ---- Рендер заметок (markdown из Obsidian) ---- */
+.article {
+	color: #d4d4d8;
+	font-size: 1.0625rem;
+	line-height: 1.8;
+}
+.article > :first-child {
+	margin-top: 0;
+}
+.article h1,
+.article h2,
+.article h3,
+.article h4 {
+	color: #fafafa;
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	line-height: 1.25;
+	margin: 2rem 0 0.75rem;
+}
+.article h1 {
+	font-size: 1.75rem;
+	margin-top: 1.5rem;
+}
+.article h2 {
+	font-size: 1.4rem;
+}
+.article h3 {
+	font-size: 1.15rem;
+}
+.article p {
+	margin: 1rem 0;
+}
+.article a {
+	color: #c4b5fd;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+.article a:hover {
+	color: #ddd6fe;
+}
+.article ul,
+.article ol {
+	margin: 1rem 0;
+	padding-left: 1.5rem;
+}
+.article ul {
+	list-style: disc;
+}
+.article ol {
+	list-style: decimal;
+}
+.article li {
+	margin: 0.35rem 0;
+}
+.article li::marker {
+	color: #71717a;
+}
+.article strong {
+	color: #f4f4f5;
+	font-weight: 600;
+}
+.article blockquote {
+	margin: 1.5rem 0;
+	border-left: 3px solid rgba(167, 139, 250, 0.4);
+	padding-left: 1rem;
+	color: #a1a1aa;
+	font-style: italic;
+}
+.article code {
+	background: rgba(255, 255, 255, 0.06);
+	border: 1px solid rgba(255, 255, 255, 0.09);
+	border-radius: 0.375rem;
+	padding: 0.15rem 0.4rem;
+	font-size: 0.875em;
+	color: #f0abfc;
+}
+.article pre {
+	margin: 1.5rem 0;
+	overflow-x: auto;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 0.75rem;
+	background: #111116;
+	padding: 1rem;
+}
+.article pre code {
+	background: transparent;
+	border: 0;
+	padding: 0;
+	color: #e4e4e7;
+}
+.article hr {
+	margin: 2rem 0;
+	border-color: rgba(255, 255, 255, 0.08);
+}
+.article img {
+	border-radius: 0.75rem;
+	margin: 1.5rem 0;
+}
+.article table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 1.5rem 0;
+	font-size: 0.95rem;
+}
+.article th,
+.article td {
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	padding: 0.5rem 0.75rem;
+	text-align: left;
+}
+.article th {
+	background: rgba(255, 255, 255, 0.03);
+	color: #fafafa;
+	font-weight: 600;
+}
+.article code,
+.article pre {
+	font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+}

@@ -1,0 +1,23 @@
+---
+interface Props {
+	date?: Date;
+}
+
+const { date } = Astro.props;
+---
+
+{
+	date && date instanceof Date && !Number.isNaN(date.valueOf()) ? (
+		<time datetime={date.toISOString()}>
+			{
+				date.toLocaleDateString('ru-RU', {
+					year: 'numeric',
+					month: 'short',
+					day: 'numeric',
+				})
+			}
+		</time>
+	) : (
+		<span class="text-zinc-500">без даты</span>
+	)
+}

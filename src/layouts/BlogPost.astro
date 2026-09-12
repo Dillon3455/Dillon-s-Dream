@@ -1,0 +1,55 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import { humanize } from '../lib/posts';
+
+type Props = CollectionEntry<'blog'>['data'] & { slug?: string };
+
+const { title, description, pubDate, updatedDate, heroImage, slug } = Astro.props;
+
+// Всеядность: если в заметке нет заголовка/описания — берём имя файла.
+const finalTitle = title?.trim() || (slug ? humanize(slug) : 'Заметка');
+const finalDescription = description?.trim() || `Заметка: ${finalTitle}`;
+---
+
+<html lang="ru">
+	<head>
+		<BaseHead title={finalTitle} description={finalDescription} />
+	</head>
+	<body class="min-h-screen bg-[#09090b] text-zinc-200 antialiased">
+		<Header />
+		<main class="mx-auto w-full max-w-2xl px-6 py-20">
+			<article>
+				{heroImage && (
+					<div class="mb-10 overflow-hidden rounded-2xl border border-white/[0.06]">
+						<Image width={1024} height={512} src={heroImage} alt="" class="w-full" />
+					</div>
+				)}
+				<header class="mb-10 text-center">
+					{pubDate && (
+						<div class="mb-4 text-xs font-medium uppercase tracking-widest text-zinc-500">
+							<FormattedDate date={pubDate} />
+						</div>
+					)}
+					<h1 class="text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl">
+						{finalTitle}
+					</h1>
+					{updatedDate && (
+						<p class="mt-4 text-xs italic text-zinc-500">
+							Обновлено: <FormattedDate date={updatedDate} />
+						</p>
+					)}
+					<hr class="mx-auto mt-8 max-w-xs border-white/[0.08]" />
+				</header>
+				<div class="article">
+					<slot />
+				</div>
+			</article>
+		</main>
+		<Footer />
+	</body>
+</html>

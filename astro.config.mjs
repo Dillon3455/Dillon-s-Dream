@@ -8,7 +8,9 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://example.com',
+  // GitHub Pages: site (username.github.io) + base (project subpath).
+  site: 'https://Dillon3455.github.io',
+  base: '/Dillon-s-Dream/',
   integrations: [mdx(), sitemap()],
 
   fonts: [

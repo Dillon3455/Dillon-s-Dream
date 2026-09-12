@@ -11,7 +11,9 @@ const blog = defineCollection({
 		z.object({
 			title: z.string().optional(),
 			description: z.string().optional(),
+			// Obsidian-заметки часто используют `date:` вместо `pubDate:`.
 			pubDate: z.coerce.date().optional(),
+			date: z.coerce.date().optional(),
 			updatedDate: z.coerce.date().optional(),
 			heroImage: z.optional(image()),
 		}),

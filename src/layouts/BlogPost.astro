@@ -9,11 +9,13 @@ import { humanize } from '../lib/posts';
 
 type Props = CollectionEntry<'blog'>['data'] & { slug?: string };
 
-const { title, description, pubDate, updatedDate, heroImage, slug } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, slug, date } = Astro.props;
 
 // Всеядность: если в заметке нет заголовка/описания — берём имя файла.
 const finalTitle = title?.trim() || (slug ? humanize(slug) : 'Заметка');
 const finalDescription = description?.trim() || `Заметка: ${finalTitle}`;
+// Дата: поддерживаем и `pubDate`, и `date:` (Obsidian).
+const mainDate = pubDate ?? date;
 ---
 
 <html lang="ru">
@@ -30,9 +32,9 @@ const finalDescription = description?.trim() || `Заметка: ${finalTitle}`;
 					</div>
 				)}
 				<header class="mb-10 text-center">
-					{pubDate && (
+					{mainDate && (
 						<div class="mb-4 text-xs font-medium uppercase tracking-widest text-zinc-500">
-							<FormattedDate date={pubDate} />
+							<FormattedDate date={mainDate} />
 						</div>
 					)}
 					<h1 class="text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl">

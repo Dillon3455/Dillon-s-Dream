@@ -8,6 +8,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { postDate, postDescription, postTitle, sortPosts } from '../lib/posts';
 
 const posts = sortPosts(await getCollection('blog'));
+const base = import.meta.env.BASE_URL;
 ---
 
 <!doctype html>
@@ -32,7 +33,7 @@ const posts = sortPosts(await getCollection('blog'));
 				</h1>
 				<p class="mx-auto mt-6 max-w-xl text-base text-zinc-400 sm:text-lg">{SITE_DESCRIPTION}</p>
 				<a
-					href="/blog/"
+					href={`${base}blog/`}
 					class="mt-10 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-6 py-3 text-sm font-medium text-zinc-100 transition hover:border-violet-400/40 hover:bg-violet-400/10 hover:text-white"
 				>
 					Читать заметки
@@ -44,14 +45,14 @@ const posts = sortPosts(await getCollection('blog'));
 			<section class="pb-28">
 				<div class="mb-10 flex items-end justify-between">
 					<h2 class="text-2xl font-semibold tracking-tight text-white">Последние заметки</h2>
-					<a href="/blog/" class="text-sm text-zinc-400 transition hover:text-white">Все посты →</a>
+					<a href={`${base}blog/`} class="text-sm text-zinc-400 transition hover:text-white">Все посты →</a>
 				</div>
 
 				<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
 					{
 						posts.map((post) => (
 							<a
-								href={`/blog/${post.id}/`}
+								href={`${base}blog/${post.id}/`}
 								class="group flex flex-col rounded-2xl border border-white/[0.06] bg-[#0d0d11] p-6 transition duration-300 hover:-translate-y-1 hover:border-white/[0.14] hover:bg-[#111116]"
 							>
 								<div class="mb-3 text-xs font-medium uppercase tracking-widest text-zinc-500">

@@ -26,9 +26,9 @@ export function postDescription(post: Post): string {
 	return d || `Читать заметку «${postTitle(post)}».`;
 }
 
-/** Дата поста или undefined (у заметок без даты). */
+/** Дата поста или undefined (у заметок без даты). Учитывает `date:` из Obsidian. */
 export function postDate(post: Post): Date | undefined {
-	const d = post.data.pubDate;
+	const d = post.data.pubDate ?? (post.data as { date?: unknown }).date;
 	return d instanceof Date && !Number.isNaN(d.valueOf()) ? d : undefined;
 }
 

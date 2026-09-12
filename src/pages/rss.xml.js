@@ -1,11 +1,12 @@
 import { getCollection } from 'astro:content';
 import rss from '@astrojs/rss';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
-import { postDescription, postTitle, sortPosts } from '../lib/posts';
+import { postDate, postDescription, postTitle, sortPosts } from '../lib/posts';
 
 export async function GET(context) {
 	const posts = sortPosts(await getCollection('blog'));
 	const fallbackDate = new Date();
+	const base = import.meta.env.BASE_URL;
 	return rss({
 		title: SITE_TITLE,
 		description: SITE_DESCRIPTION,
@@ -13,8 +14,8 @@ export async function GET(context) {
 		items: posts.map((post) => ({
 			title: postTitle(post),
 			description: postDescription(post),
-			pubDate: post.data.pubDate ?? fallbackDate,
-			link: `/blog/${post.id}/`,
+			pubDate: postDate(post) ?? fallbackDate,
+			link: new URL(`${base}blog/${post.id}/`, context.site).toString(),
 		})),
 	});
 }

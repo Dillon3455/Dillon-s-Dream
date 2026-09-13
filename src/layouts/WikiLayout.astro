@@ -1,23 +1,19 @@
 ---
 // WikiLayout.astro — Fandom-подобный макет страниц Verse:
-// боковое меню со всеми статьями + читаемая статья + инфобокс справа.
+// содержание (TOC) слева + читаемая статья + инфобокс справа.
 import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
-import { humanize, postTitle } from '../lib/posts';
+import { humanize } from '../lib/posts';
 
 const base = (import.meta.env.BASE_URL || '').replace(/\/$/, '') + '/';
 
-// Список всех страниц Википедии (из папки verse/), по алфавиту.
-const all = await getCollection('blog');
-const wiki = all
-	.filter((p) => p.id.startsWith('verse/'))
-	.sort((a, b) => postTitle(a).localeCompare(postTitle(b), 'ru'));
-
-const currentPath = Astro.url.pathname.replace(/\/$/, '');
-const currentSlug = currentPath.split('/').pop()?.toLowerCase() || '';
+type Heading = {
+	depth: number;
+	slug: string;
+	text: string;
+};
 
 type Data = {
 	slug?: string;
@@ -31,8 +27,11 @@ type Data = {
 	tags?: string | string[];
 	pubDate?: Date;
 	date?: Date;
+	headings?: Heading[];
 };
 const props = Astro.props as Data;
+
+const headings = (props.headings ?? []).filter((h) => h.depth === 2 || h.depth === 3);
 
 const finalTitle = props.title?.trim() || (props.slug ? humanize(props.slug) : 'Статья');
 const fallbackDesc = `Статья «${finalTitle}» в базе знаний Verse.`;
@@ -42,16 +41,7 @@ const mainDate = props.pubDate ?? props.date;
 const tags = Array.isArray(props.tags) ? props.tags : props.tags ? [props.tags] : [];
 const hasInfobox =
 	props.type || props.status || props.author || props.category || tags.length || mainDate || props.heroImage;
-
-function wikiHref(id: string): string {
-	return `${base}verse/${id.replace(/^verse\//, '').toLowerCase()}/`;
-}
-
-function isCurrent(id: string): boolean {
-	return (id.split('/').pop()?.toLowerCase() || '') === currentSlug;
-}
 ---
-
 <!doctype html>
 <html lang="ru">
 	<head>
@@ -63,20 +53,14 @@ function isCurrent(id: string): boolean {
 		{/* ===== Мобильная (схлопываемая) навигация ===== */}
 		<details class="mb-2 rounded-2xl border border-white/[0.08] bg-[#1b1b1b] px-4 py-3 lg:hidden">
 			<summary class="cursor-pointer text-sm font-semibold text-zinc-200">
-				Все статьи <span class="text-zinc-500">({wiki.length})</span>
+				Содержание <span class="text-zinc-500">({headings.length})</span>
 			</summary>
 			<ul class="mt-2 space-y-1 text-sm">
 				{
-					wiki.map((p) => (
+					headings.map((h) => (
 						<li>
-							<a
-								href={wikiHref(p.id)}
-								class:list={[
-									'block rounded-lg px-2 py-1.5 transition',
-									isCurrent(p.id) ? 'bg-[#0080FF]/15 text-white' : 'text-zinc-400 hover:bg-white/[0.06] hover:text-zinc-100',
-								]}
-							>
-								{postTitle(p)}
+							<a href={`#${h.slug}`} class="text-zinc-400 transition-colors hover:text-[#0080FF]">
+								{h.text}
 							</a>
 						</li>
 					))
@@ -85,30 +69,22 @@ function isCurrent(id: string): boolean {
 		</details>
 
 		<main class="mx-auto grid w-full max-w-7xl items-start gap-8 px-4 pb-16 pt-10 lg:grid-cols-[15rem_minmax(0,1fr)_16rem] md:grid-cols-[15rem_minmax(0,1fr)]">
-			{/* ===== Левая колонка: боковое меню ===== */}
+			{/* ===== Левая колонка: содержание статьи (Table of Contents) ===== */}
 			<aside class="sticky top-[4.7rem] max-h-[calc(100vh-6rem)] self-start overflow-y-auto rounded-2xl border border-white/[0.08] bg-[#1b1b1b] px-4 py-5">
 				<p class="mb-1 text-xs font-medium uppercase tracking-[0.3em] text-sky-300/80">Verse</p>
-				<p class="mb-2 text-sm font-semibold text-zinc-200">
-					Все статьи <span class="text-zinc-500">({wiki.length})</span>
-				</p>
-				<a
-					href={`${base}verse/`}
-					class="mb-3 block truncate rounded-lg px-2.5 py-1.5 text-sm font-medium text-zinc-400 hover:bg-white/[0.06] hover:text-zinc-100"
-				>
-					↖ Хаб Verse
-				</a>
-				<ul class="space-y-0.5">
+				<p class="mb-3 text-sm font-semibold text-zinc-200">Содержание</p>
+				<ul class="space-y-1">
 					{
-						wiki.map((p) => (
+						headings.map((h) => (
 							<li>
 								<a
-									href={wikiHref(p.id)}
+									href={`#${h.slug}`}
 									class:list={[
-										'block truncate rounded-lg px-2.5 py-1.5 text-sm transition',
-										isCurrent(p.id) ? 'bg-[#0080FF]/20 font-semibold text-white' : 'text-zinc-400 hover:bg-white/[0.06] hover:text-zinc-100',
+										'block text-zinc-400 hover:text-[#0080FF] transition-colors',
+										h.depth === 3 ? 'pl-4 text-xs' : 'text-sm font-medium',
 									]}
 								>
-									{postTitle(p)}
+									{h.text}
 								</a>
 							</li>
 						))

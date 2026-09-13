@@ -6,7 +6,7 @@ const path = Astro.url.pathname;
 
 const links = [
 	{ href: base, label: 'Home' },
-	{ href: `${base}verse/`, label: 'Verse' },
+	{ href: `${base}verse/start/`, label: 'Verse' },
 	{ href: `${base}about/`, label: 'About' },
 ];
 ---
@@ -26,8 +26,8 @@ const links = [
 						<a
 							href={l.href}
 							class:list={[
-								'rounded-full px-3.5 py-1.5 text-sm font-medium transition',
-								active ? 'bg-white/20 text-white' : 'text-white/80 hover:bg-white/10 hover:text-white',
+								'rounded-full bg-[#171717] px-4 py-2 text-sm font-medium text-white transition-all hover:bg-gray-800',
+								active ? 'ring-1 ring-white/40' : '',
 							]}
 						>
 							{l.label}

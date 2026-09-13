@@ -2,7 +2,6 @@
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import { humanize } from '../lib/posts';
@@ -22,7 +21,7 @@ const mainDate = pubDate ?? date;
 	<head>
 		<BaseHead title={finalTitle} description={finalDescription} />
 	</head>
-	<body class="min-h-screen bg-[#09090b] text-zinc-200 antialiased">
+	<body class="min-h-screen bg-[#171717] text-zinc-200 antialiased">
 		<Header />
 		<main class="mx-auto w-full max-w-2xl px-6 py-20">
 			<article>
@@ -52,6 +51,5 @@ const mainDate = pubDate ?? date;
 				</div>
 			</article>
 		</main>
-		<Footer />
 	</body>
 </html>

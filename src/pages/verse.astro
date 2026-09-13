@@ -1,0 +1,53 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+import { postDate, postDescription, postTitle, sortPosts } from '../lib/posts';
+
+// В Википедию «Verse» попадают ТОЛЬКО заметки из подпапки content/blog/verse/.
+// index.md и about.md из корня коллекции сюда не попадают.
+const all = await getCollection('blog');
+const notes = sortPosts(all.filter((p) => p.id.startsWith('verse/')));
+const base = (import.meta.env.BASE_URL || '').replace(/\/$/, '') + '/';
+---
+
+<!doctype html>
+<html lang="ru">
+	<head>
+		<BaseHead title={`Verse · ${SITE_TITLE}`} description={`Личная база знаний — заметки ${SITE_TITLE}.`} />
+	</head>
+	<body class="min-h-screen bg-[#171717] text-zinc-200 antialiased">
+		<Header />
+		<main class="mx-auto w-full max-w-5xl px-6 pb-28 pt-20">
+			<header class="mb-12">
+				<p class="mb-3 text-xs font-medium uppercase tracking-[0.35em] text-sky-300/80">Verse</p>
+				<h1 class="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+					База знаний <span class="text-zinc-500">({notes.length})</span>
+				</h1>
+			</header>
+
+			<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+				{
+					notes.map((post) => (
+						<a
+							href={`${base}verse/${post.id.replace(/^verse\//, '')}/`}
+							class="group flex flex-col rounded-2xl border border-white/[0.06] bg-[#1b1b1b] p-6 transition duration-300 hover:-translate-y-1 hover:border-sky-400/40 hover:bg-[#202020]"
+						>
+							<div class="mb-3 text-xs font-medium uppercase tracking-widest text-zinc-500">
+								<FormattedDate date={postDate(post)} />
+							</div>
+							<h3 class="mb-2 text-lg font-semibold leading-snug text-zinc-100 transition group-hover:text-white">
+								{postTitle(post)}
+							</h3>
+							<p class="mt-auto text-sm leading-relaxed text-zinc-400 line-clamp-3">
+								{postDescription(post)}
+							</p>
+						</a>
+					))
+				}
+			</div>
+		</main>
+	</body>
+</html>

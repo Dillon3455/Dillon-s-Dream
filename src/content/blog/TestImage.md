@@ -1,3 +1,3 @@
 
 Ale
-![](images/Dillon.png)
+![300](images/Dillon.png)

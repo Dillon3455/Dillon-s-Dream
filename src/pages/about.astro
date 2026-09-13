@@ -1,29 +1,15 @@
 ---
-import Layout from '../layouts/BlogPost.astro';
+import { getCollection, render } from 'astro:content';
+import BlogPost from '../layouts/BlogPost.astro';
+import { postDescription, postTitle } from '../lib/posts';
 
-const title = 'Обо мне';
-const description = 'Кто я и почему вайбкодинг.';
+const posts = await getCollection('blog');
+const entry = posts.find((p) => p.id === 'about');
+const { Content } = await render(entry);
+const title = postTitle(entry);
+const description = postDescription(entry);
 ---
 
-<Layout title={title} description={description} pubDate={new Date('Sep 10 2026')}>
-	<p>
-		Привет! Я веду этот блог про <strong>вайбкодинг</strong> — способ писать код вместе с
-		ИИ-помощником, когда главное — это идея, поток и «вайб», а не доскональное знание синтаксиса.
-	</p>
-
-	<h2>Почему вайбкодинг?</h2>
-	<p>
-		Современные модели отлично понимают естественный язык. Вместо того чтобы помнить десятки скобок и
-		импортов, можно просто объяснить задачу словами — и получить рабочий результат. Это открывает
-		дорогу к разработке тем, кто никогда не писал код «вручную».
-	</p>
-
-	<h2>О чём этот блог</h2>
-	<ul>
-		<li>Заметки про вайбкодинг и работу с ИИ — как начать и не сойти с ума.</li>
-		<li>Практические примеры: Astro, Tailwind, статические сайты и не только.</li>
-		<li>Мои эксперименты, удачи и провалы в совместном творчестве с нейросетями.</li>
-	</ul>
-
-	<p>Добро пожаловать, присаживайся. Тут всегда есть вайб. ✨</p>
-</Layout>
+<BlogPost title={title} description={description} slug="about" pubDate={undefined}>
+	<Content />
+</BlogPost>

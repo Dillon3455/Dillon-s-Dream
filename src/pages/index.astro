@@ -1,75 +1,26 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
-import { postDate, postDescription, postTitle, sortPosts } from '../lib/posts';
 
-const posts = sortPosts(await getCollection('blog'));
-const base = (import.meta.env.BASE_URL || '').replace(/\/$/, '') + '/';
+const posts = await getCollection('blog');
+const entry = posts.find((p) => p.id === 'index');
+const { Content } = await render(entry);
+const pageDescription = entry?.data.description?.trim() || SITE_DESCRIPTION;
 ---
 
 <!doctype html>
 <html lang="ru">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead title={SITE_TITLE} description={pageDescription} />
 	</head>
-	<body class="min-h-screen bg-[#09090b] text-zinc-200 antialiased">
+	<body class="min-h-screen bg-[#171717] text-zinc-200 antialiased">
 		<Header />
-		<main class="mx-auto w-full max-w-5xl px-6">
-			<!-- Герой -->
-			<section class="py-24 text-center sm:py-32">
-				<p class="mb-6 text-xs font-medium uppercase tracking-[0.35em] text-violet-300/80">
-					Vibe Coding Notes
-				</p>
-				<h1 class="mx-auto max-w-3xl text-4xl font-semibold leading-tight tracking-tight text-white sm:text-6xl">
-					Мысли про
-					<span class="bg-gradient-to-r from-violet-300 to-fuchsia-300 bg-clip-text text-transparent">
-						вайбкодинг
-					</span>
-					и разработку с ИИ
-				</h1>
-				<p class="mx-auto mt-6 max-w-xl text-base text-zinc-400 sm:text-lg">{SITE_DESCRIPTION}</p>
-				<a
-					href={`${base}blog/`}
-					class="mt-10 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-6 py-3 text-sm font-medium text-zinc-100 transition hover:border-violet-400/40 hover:bg-violet-400/10 hover:text-white"
-				>
-					Читать заметки
-					<span aria-hidden="true">→</span>
-				</a>
-			</section>
-
-			<!-- Сетка постов -->
-			<section class="pb-28">
-				<div class="mb-10 flex items-end justify-between">
-					<h2 class="text-2xl font-semibold tracking-tight text-white">Последние заметки</h2>
-					<a href={`${base}blog/`} class="text-sm text-zinc-400 transition hover:text-white">Все посты →</a>
-				</div>
-
-				<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-					{
-						posts.map((post) => (
-							<a
-								href={`${base}blog/${post.id}/`}
-								class="group flex flex-col rounded-2xl border border-white/[0.06] bg-[#0d0d11] p-6 transition duration-300 hover:-translate-y-1 hover:border-white/[0.14] hover:bg-[#111116]"
-							>
-								<div class="mb-3 text-xs font-medium uppercase tracking-widest text-zinc-500">
-									<FormattedDate date={postDate(post)} />
-								</div>
-								<h3 class="mb-2 text-lg font-semibold leading-snug text-zinc-100 transition group-hover:text-white">
-									{postTitle(post)}
-								</h3>
-								<p class="mt-auto text-sm leading-relaxed text-zinc-400 line-clamp-3">
-									{postDescription(post)}
-								</p>
-							</a>
-						))
-					}
-				</div>
-			</section>
+		<main class="mx-auto w-full max-w-2xl px-6 py-20">
+			<article class="article">
+				<Content />
+			</article>
 		</main>
-		<Footer />
 	</body>
 </html>

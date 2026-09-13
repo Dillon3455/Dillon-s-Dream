@@ -1,36 +1,33 @@
 ---
 import { SITE_TITLE } from '../consts';
 
-const base = import.meta.env.BASE_URL;
-// Гарантируем завершающий слэш, чтобы ссылки не склеивались (например /Dillon-s-Dream + blog/)
-const home = base.endsWith('/') ? base : `${base}/`;
+const base = (import.meta.env.BASE_URL || '').replace(/\/$/, '') + '/';
 const path = Astro.url.pathname;
 
 const links = [
-	{ href: home, label: 'Главная' },
-	{ href: `${home}blog/`, label: 'Блог' },
-	{ href: `${home}about/`, label: 'Обо мне' },
+	{ href: base, label: 'Home' },
+	{ href: `${base}verse/`, label: 'Verse' },
+	{ href: `${base}about/`, label: 'About' },
 ];
 ---
 
-<header class="sticky top-0 z-50 border-b border-white/[0.06] bg-[#09090b]/75 backdrop-blur-xl">
+<header class="sticky top-0 z-50 bg-[#0080FF]">
 	<nav class="mx-auto flex h-16 w-full max-w-5xl items-center justify-between px-6">
-		<a href={home} class="text-sm font-semibold tracking-tight text-white">
+		<span class="text-sm font-semibold tracking-tight text-white">
 			{SITE_TITLE}
-			<span class="ml-1.5 inline-block h-1.5 w-1.5 rounded-full bg-violet-400 align-middle"></span>
-		</a>
+			<span class="ml-1.5 inline-block h-1.5 w-1.5 rounded-full bg-white/90 align-middle"></span>
+		</span>
 		<div class="flex items-center gap-1">
 			{
 				links.map((l) => {
-					const active = l.href === home ? path === base || path === home : path.startsWith(l.href);
+					const isHome = l.href === base;
+					const active = isHome ? path === base : path.startsWith(l.href);
 					return (
 						<a
 							href={l.href}
 							class:list={[
 								'rounded-full px-3.5 py-1.5 text-sm font-medium transition',
-								active
-									? 'bg-white/[0.07] text-white'
-									: 'text-zinc-400 hover:text-white',
+								active ? 'bg-white/20 text-white' : 'text-white/80 hover:bg-white/10 hover:text-white',
 							]}
 						>
 							{l.label}

@@ -1,6 +1,11 @@
 ---
 title: 'Собираю блог на Astro и Tailwind вместе с ИИ'
 description: 'Реальный пример вайбкодинга: как за полчаса поднять статический блог на Astro с Tailwind CSS под руководством AI-агента.'
+category: Практика
+type: Кейс
+status: completed
+author: Dillon
+tags: [astro, tailwind, кейс]
 pubDate: 'Sep 10 2026'
 ---
 

@@ -16,6 +16,12 @@ const blog = defineCollection({
 			date: z.coerce.date().optional(),
 			updatedDate: z.coerce.date().optional(),
 			heroImage: z.optional(image()),
+			// Вики-поля: для инфобокса и категоризации на хабе Verse.
+			type: z.string().optional(),
+			status: z.string().optional(),
+			author: z.string().optional(),
+			category: z.string().optional(),
+			tags: z.union([z.string(), z.array(z.string())]).optional(),
 		}),
 });
 

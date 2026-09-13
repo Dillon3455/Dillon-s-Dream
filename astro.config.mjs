@@ -4,13 +4,23 @@ import sitemap from '@astrojs/sitemap';
 // Вернули fontProviders в импорт, чтобы он был defined!
 import { defineConfig, fontProviders } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
+import { satteri } from '@astrojs/markdown-satteri';
+import wikiLinkHastPlugin from './src/lib/wikiLinks.mjs';
+
+// GitHub Pages: site (username.github.io) + base (project subpath)
+const basePath = '/Dillon-s-Dream';
 
 // https://astro.build/config
 export default defineConfig({
-  // GitHub Pages: site (username.github.io) + base (project subpath)
   site: 'https://Dillon3455.github.io',
   // Убрали слэш с конца, чтобы не ломать стили Tailwind v4
-  base: '/Dillon-s-Dream',
+  base: basePath,
+
+  markdown: {
+    processor: satteri({
+      hastPlugins: [wikiLinkHastPlugin({ base: basePath })],
+    }),
+  },
   integrations: [mdx(), sitemap()],
 
   fonts: [

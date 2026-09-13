@@ -1,7 +1,7 @@
 ---
 title: Best
 date: 2026-09-13
-heroImage: './images/my-banner.jpg'
+heroImage: ./images/Dillon.png
 ---
 
 Test!

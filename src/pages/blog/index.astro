@@ -8,7 +8,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 import { postDate, postDescription, postTitle, sortPosts } from '../../lib/posts';
 
 const posts = sortPosts(await getCollection('blog'));
-const base = import.meta.env.BASE_URL;
+const base = (import.meta.env.BASE_URL || '').replace(/\/$/, '') + '/';
 ---
 
 <!doctype html>

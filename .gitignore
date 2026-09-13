@@ -5,6 +5,7 @@ dist/
 # generated types
 .astro/
 *.tsbuildinfo
+.obsidian/
 
 # dependencies
 node_modules/

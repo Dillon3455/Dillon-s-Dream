@@ -1,0 +1,70 @@
+---
+// No build-time logic needed
+---
+
+<button
+  id="back-to-top"
+  class="fixed bottom-0 right-10 z-50 flex items-end gap-3 opacity-0 pointer-events-none translate-y-32 transition-all duration-300 ease-out"
+  aria-label="Наверх"
+>
+  <!-- Left (longer) cord -->
+  <div class="flex flex-col items-center">
+    <div class="w-0.5 h-16 bg-[#7ABEFF] rounded-full"></div>
+    <div class="w-3 h-3 rounded-full bg-white mt-0.5" style="box-shadow: 0 0 8px rgba(255,255,255,0.6);"></div>
+  </div>
+  <!-- Right (shorter) cord -->
+  <div class="flex flex-col items-center">
+    <div class="w-0.5 h-11 bg-[#7ABEFF] rounded-full"></div>
+    <div class="w-3 h-3 rounded-full bg-white mt-0.5" style="box-shadow: 0 0 8px rgba(255,255,255,0.6);"></div>
+  </div>
+</button>
+
+<script>
+  const btn = document.getElementById('back-to-top');
+  if (!btn) throw new Error('[BackToTop] button not found');
+
+  let visible = false;
+
+  function show() {
+    if (visible) return;
+    visible = true;
+    btn.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-32');
+    btn.classList.add('opacity-100', 'translate-y-0');
+  }
+
+  function hide() {
+    if (!visible) return;
+    visible = false;
+    btn.classList.add('opacity-0', 'pointer-events-none', 'translate-y-32');
+    btn.classList.remove('opacity-100', 'translate-y-0');
+  }
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) show();
+    else hide();
+  });
+
+  btn.addEventListener('click', () => {
+    btn.classList.add('animate-btt-pull');
+    btn.style.transitionDuration = '0ms';
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    setTimeout(() => {
+      btn.classList.remove('animate-btt-pull');
+      btn.style.transitionDuration = '';
+    }, 350);
+  });
+</script>
+
+<style>
+  @keyframes btt-pull {
+    0%   { transform: translateY(0); }
+    25%  { transform: translateY(-10px); }
+    55%  { transform: translateY(3px); }
+    100% { transform: translateY(0); }
+  }
+  .animate-btt-pull {
+    animation: btt-pull 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+</style>

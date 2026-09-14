@@ -7,6 +7,8 @@ import { resolveSlug } from '../lib/wikiLinks.mjs';
 import BaseHead from '../components/BaseHead.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import BackToTop from '../components/BackToTop.astro';
 import { humanize } from '../lib/posts';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -286,5 +288,7 @@ const hasInfobox =
 				)
 			}
 		</main>
-	</body>
-</html>
+			<Footer />
+			<BackToTop />
+		</body>
+		</html>

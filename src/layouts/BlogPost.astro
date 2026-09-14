@@ -4,6 +4,8 @@ import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import BackToTop from '../components/BackToTop.astro';
 import { humanize } from '../lib/posts';
 
 type Props = CollectionEntry<'blog'>['data'] & { slug?: string };
@@ -51,5 +53,7 @@ const mainDate = pubDate ?? date;
 				</div>
 			</article>
 		</main>
+		<Footer />
+		<BackToTop />
 	</body>
 </html>

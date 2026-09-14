@@ -4,6 +4,8 @@
 import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import BackToTop from '../components/BackToTop.astro';
 import { SITE_TITLE } from '../consts';
 import { postTitle } from '../lib/posts';
 
@@ -132,5 +134,7 @@ function href(id: string): string {
 				}
 			</section>
 		</main>
-	</body>
-</html>
+			<Footer />
+			<BackToTop />
+		</body>
+		</html>

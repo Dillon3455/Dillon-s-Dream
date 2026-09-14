@@ -1,0 +1,39 @@
+---
+import { execSync } from 'node:child_process';
+
+function getBuildInfo(): { hash: string; date: string } {
+  let hash = '??????';
+  let date = '01.01.1970';
+
+  try {
+    const projectRoot = import.meta.env.PROJECT_ROOT_DIR || process.cwd();
+    hash = execSync('git rev-parse --short HEAD', {
+      encoding: 'utf-8',
+      cwd: projectRoot,
+      stdio: 'pipe',
+    }).trim();
+  } catch {
+    // git unavailable or not a repo — keep fallback
+  }
+
+  try {
+    const d = new Date();
+    const dd = String(d.getDate()).padStart(2, '0');
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const yyyy = d.getFullYear();
+    date = `${dd}.${mm}.${yyyy}`;
+  } catch {
+    // keep fallback
+  }
+
+  return { hash, date };
+}
+
+const { hash, date } = getBuildInfo();
+---
+
+<footer class="w-full bg-[#0080FF] py-3 text-center" role="contentinfo">
+  <p class="text-xs font-medium text-white/90">
+    Сборка: #{hash} • Дата: {date}
+  </p>
+</footer>

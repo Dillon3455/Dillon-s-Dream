@@ -1,7 +1,6 @@
 ---
 type: Dial
 title: Dillon Pro
-heroImage: ./images/DillonPro.png
 description: Свет в конце туннели
 ---
 Появился в 2017 году

@@ -4,18 +4,23 @@
 
 <button
   id="back-to-top"
-  class="fixed top-0 right-0 z-[60] flex flex-col items-end gap-2 opacity-0 pointer-events-none translate-y-[-10px] transition-all duration-300 ease-out"
+  class="fixed bottom-0 right-10 z-[100] flex flex-col items-end gap-2 -translate-y-full opacity-0 pointer-events-none transition-all duration-300 ease-out min-h-[300px]"
   aria-label="Наверх"
 >
-  <!-- Left (longer) cord hanging from top -->
-  <div class="flex flex-col items-center">
-    <div class="w-[3px] h-[60vh] bg-[#7ABEFF] rounded-full"></div>
-    <div class="w-3 h-3 rounded-full bg-white mt-0.5" style="box-shadow: 0 0 8px rgba(255,255,255,0.6);"></div>
-  </div>
-  <!-- Right (shorter) cord hanging from top -->
-  <div class="flex flex-col items-center">
-    <div class="w-[3px] h-[45vh] bg-[#7ABEFF] rounded-full"></div>
-    <div class="w-3 h-3 rounded-full bg-white mt-0.5" style="box-shadow: 0 0 8px rgba(255,255,255,0.6);"></div>
+  <!-- Spacer: pushes cords up and gives button height for translate-y-full to hide -->
+  <div class="h-[200px]"></div>
+  <!-- Cords: tops fixed ~150px from bottom, hang DOWN, balls at bottom ends -->
+  <div class="flex flex-col items-end gap-2 -translate-y-[150px]">
+    <!-- Left (longer) cord -->
+    <div class="flex flex-col items-center">
+      <div class="w-[3px] h-24 bg-[#7ABEFF] rounded-full"></div>
+      <div class="w-3 h-3 rounded-full bg-white mt-0.5" style="box-shadow: 0 0 10px #fff;"></div>
+    </div>
+    <!-- Right (shorter) cord -->
+    <div class="flex flex-col items-center">
+      <div class="w-[3px] h-16 bg-[#7ABEFF] rounded-full"></div>
+      <div class="w-3 h-3 rounded-full bg-white mt-0.5" style="box-shadow: 0 0 10px #fff;"></div>
+    </div>
   </div>
 </button>
 
@@ -28,15 +33,15 @@
   function show() {
     if (visible) return;
     visible = true;
-    btn.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-[-10px]');
-    btn.classList.add('opacity-100', 'translate-y-0');
+    btn.classList.remove('-translate-y-full', 'opacity-0', 'pointer-events-none');
+    btn.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
   }
 
   function hide() {
     if (!visible) return;
     visible = false;
-    btn.classList.add('opacity-0', 'pointer-events-none', 'translate-y-[-10px]');
-    btn.classList.remove('opacity-100', 'translate-y-0');
+    btn.classList.add('-translate-y-full', 'opacity-0', 'pointer-events-none');
+    btn.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
   }
 
   window.addEventListener('scroll', () => {
@@ -60,8 +65,8 @@
 <style>
   @keyframes btt-pull {
     0%   { transform: translateY(0); }
-    25%  { transform: translateY(-10px); }
-    55%  { transform: translateY(3px); }
+    25%  { transform: translateY(18px); }
+    55%  { transform: translateY(-3px); }
     100% { transform: translateY(0); }
   }
   .animate-btt-pull {

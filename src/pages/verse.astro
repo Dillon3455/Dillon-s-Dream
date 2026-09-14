@@ -1,6 +1,4 @@
 ---
-// verse.astro — хаб-указатель Википедии Verse: счётчик статей,
-// буквенный указатель (А-Я / A-Z) и группировка по категориям.
 import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
@@ -92,7 +90,7 @@ function href(id: string): string {
 				}
 			</nav>
 
-			{/* Категории */}
+			 {/* Категории */ }
 			<section class="mb-10 rounded-2xl border border-white/[0.08] bg-[#1b1b1b] p-5">
 				<h2 class="mb-3 text-sm font-bold uppercase tracking-[0.15em] text-white">Категории</h2>
 				<div class="flex flex-wrap gap-2">
@@ -107,7 +105,7 @@ function href(id: string): string {
 				</div>
 			</section>
 
-			{/* Cписок статей по алфавиту */}
+			 {/* Список статей по алфавиту */ }
 			<section class="space-y-6">
 				{
 					letterGroups.map(([L, posts], gi) => (
@@ -119,14 +117,16 @@ function href(id: string): string {
 								</span>
 							</div>
 							<ol class="mt-3 space-y-1.5">
-								{posts.map((p) => (
-									<li>
-										<a href={href(p.id)} class="group flex items-start justify-between gap-2 rounded-lg px-3 py-2.5 transition hover:bg-white/[0.06]">
-											<span class="text-base font-medium text-zinc-200 group-hover:text-white">{postTitle(p)}</span>
-											<span class="shrink-0 text-xs uppercase text-zinc-500">{p.data.category || 'Разное'}</span>
-										</a>
-									</li>
-								))}
+								{
+									posts.map((p) => (
+										<li>
+											<a href={href(p.id)} class="group flex items-start justify-between gap-2 rounded-lg px-3 py-2.5 transition hover:bg-white/[0.06]">
+												<span class="text-base font-medium text-zinc-200 group-hover:text-white">{postTitle(p)}</span>
+												<span class="shrink-0 text-xs uppercase text-zinc-500">{p.data.category || 'Разное'}</span>
+											</a>
+										</li>
+									))
+								}
 							</ol>
 							{gi < letterGroups.length - 1 && <hr class="mt-2 border-white/[0.06]" />}
 						</div>
@@ -134,7 +134,7 @@ function href(id: string): string {
 				}
 			</section>
 		</main>
-			<Footer />
-			<BackToTop />
-		</body>
-		</html>
+		<Footer />
+		<BackToTop />
+	</body>
+</html>

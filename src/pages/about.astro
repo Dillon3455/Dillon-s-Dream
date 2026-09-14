@@ -2,8 +2,6 @@
 import { getCollection, render } from 'astro:content';
 import BlogPost from '../layouts/BlogPost.astro';
 import { postDescription, postTitle } from '../lib/posts';
-import Footer from '../components/Footer.astro';
-import BackToTop from '../components/BackToTop.astro';
 
 const posts = await getCollection('blog');
 const entry = posts.find((p) => p.id === 'about');

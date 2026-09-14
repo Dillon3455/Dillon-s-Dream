@@ -128,7 +128,7 @@ const hasInfobox =
 	<head>
 		<BaseHead title={finalTitle} description={finalDescription} />
 	</head>
-	<body class="min-h-screen bg-[#171717] text-zinc-200 antialiased">
+	<body class="min-h-screen flex flex-col bg-[#171717] text-zinc-200 antialiased">
 		<Header />
 
 		{/* ===== Мобильная (схлопываемая) навигация ===== */}
@@ -149,7 +149,7 @@ const hasInfobox =
 			</ul>
 		</details>
 
-		<main class="mx-auto grid w-full max-w-7xl items-start gap-8 px-4 pb-16 pt-10 lg:grid-cols-[15rem_minmax(0,1fr)_16rem] md:grid-cols-[15rem_minmax(0,1fr)]">
+		<main class="mx-auto grid w-full max-w-7xl items-start gap-8 px-4 pb-16 pt-10 flex-1 lg:grid-cols-[15rem_minmax(0,1fr)_16rem] md:grid-cols-[15rem_minmax(0,1fr)]">
 			{/* ===== Левая колонка: содержание статьи (Table of Contents) ===== */}
 			<aside class="sticky top-[4.7rem] max-h-[calc(100vh-6rem)] self-start overflow-y-auto rounded-2xl border border-white/[0.08] bg-[#1b1b1b] px-4 py-5">
 				<p class="mb-1 text-xs font-medium uppercase tracking-[0.3em] text-sky-300/80">Verse</p>

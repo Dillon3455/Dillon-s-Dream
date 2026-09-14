@@ -4,17 +4,17 @@
 
 <button
   id="back-to-top"
-  class="fixed bottom-0 right-10 z-50 flex items-end gap-3 opacity-0 pointer-events-none translate-y-32 transition-all duration-300 ease-out"
+  class="fixed top-0 right-0 z-[60] flex flex-col items-end gap-2 opacity-0 pointer-events-none translate-y-[-10px] transition-all duration-300 ease-out"
   aria-label="Наверх"
 >
-  <!-- Left (longer) cord -->
+  <!-- Left (longer) cord hanging from top -->
   <div class="flex flex-col items-center">
-    <div class="w-0.5 h-16 bg-[#7ABEFF] rounded-full"></div>
+    <div class="w-[3px] h-[60vh] bg-[#7ABEFF] rounded-full"></div>
     <div class="w-3 h-3 rounded-full bg-white mt-0.5" style="box-shadow: 0 0 8px rgba(255,255,255,0.6);"></div>
   </div>
-  <!-- Right (shorter) cord -->
+  <!-- Right (shorter) cord hanging from top -->
   <div class="flex flex-col items-center">
-    <div class="w-0.5 h-11 bg-[#7ABEFF] rounded-full"></div>
+    <div class="w-[3px] h-[45vh] bg-[#7ABEFF] rounded-full"></div>
     <div class="w-3 h-3 rounded-full bg-white mt-0.5" style="box-shadow: 0 0 8px rgba(255,255,255,0.6);"></div>
   </div>
 </button>
@@ -28,14 +28,14 @@
   function show() {
     if (visible) return;
     visible = true;
-    btn.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-32');
+    btn.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-[-10px]');
     btn.classList.add('opacity-100', 'translate-y-0');
   }
 
   function hide() {
     if (!visible) return;
     visible = false;
-    btn.classList.add('opacity-0', 'pointer-events-none', 'translate-y-32');
+    btn.classList.add('opacity-0', 'pointer-events-none', 'translate-y-[-10px]');
     btn.classList.remove('opacity-100', 'translate-y-0');
   }
 

@@ -54,9 +54,9 @@ sortPosts(notes);
 			description={`Страницы сети Verse, помеченные тегом «${tag}» — ${notes.length} ${notes.length === 1 ? 'запись' : notes.length < 5 ? 'записи' : 'записей'}.`}
 		/>
 	</head>
-	<body class="min-h-screen bg-[#171717] text-zinc-200 antialiased">
+	<body class="min-h-screen flex flex-col bg-[#171717] text-zinc-200 antialiased">
 		<Header />
-		<main class="mx-auto w-full max-w-4xl px-4 pb-16 pt-12">
+		<main class="mx-auto w-full max-w-4xl px-4 pb-16 pt-12 flex-1">
 			<header class="mb-8">
 				<p class="mb-3 text-xs font-medium uppercase tracking-[0.35em] text-sky-300/80">Verse · Категории</p>
 				<h1 class="border-b-2 border-[#0080FF] pb-3 text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl">

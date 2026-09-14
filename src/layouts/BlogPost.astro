@@ -23,9 +23,9 @@ const mainDate = pubDate ?? date;
 	<head>
 		<BaseHead title={finalTitle} description={finalDescription} />
 	</head>
-	<body class="min-h-screen bg-[#171717] text-zinc-200 antialiased">
+	<body class="min-h-screen flex flex-col bg-[#171717] text-zinc-200 antialiased">
 		<Header />
-		<main class="mx-auto w-full max-w-2xl px-6 py-20">
+		<main class="mx-auto w-full max-w-2xl px-6 py-20 flex-1">
 			<article>
 				{heroImage && (
 					<div class="mb-10 overflow-hidden rounded-2xl border border-white/[0.06]">

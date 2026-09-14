@@ -6,10 +6,14 @@ export async function getStaticPaths() {
 	const posts = await getCollection('blog');
 	return posts
 		.filter((p) => p.id.startsWith('verse/'))
-		.map((post) => ({
-			params: { slug: post.id.replace(/^verse\//, '') },
-			props: post,
-		}));
+		.map((post) => {
+			// Плоский slug — только basename файла, без вложенных папок
+			const slug = post.id.replace(/^verse\//, '').split('/').pop()!;
+			return {
+				params: { slug },
+				props: post,
+			};
+		});
 }
 type Props = CollectionEntry<'blog'>;
 
@@ -17,6 +21,6 @@ const post = Astro.props;
 const { Content, headings } = await render(post);
 ---
 
-<WikiLayout {...post.data} slug={post.id} headings={headings}>
+<WikiLayout {...post.data} slug={Astro.params.slug} headings={headings}>
 	<Content />
 </WikiLayout>

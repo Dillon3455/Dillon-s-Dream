@@ -84,9 +84,11 @@ const LINK_RE = /\[[^\]]*\]\(([^)]+)\)/g;
 // Нормализует путь из glob-ключа к вики-слагу: `../../content/blog/verse/start.md` → `verse/start`.
 function slugFromGlobKey(key: string): string {
 	return key
-		.replace(/^\.\.\/+/, '')
+		.replace(/^\.\/+/, '')
 		.replace(/^.*?content\/blog\//, '')
 		.replace(/\.(mdx?)$/i, '')
+		.split('/')
+		.pop()!
 		.toLowerCase();
 }
 
@@ -94,9 +96,8 @@ if (currentSlug) {
 		for (const [key, src] of Object.entries(sourceFiles)) {
 			const slug = slugFromGlobKey(key);
 			if (!slug) continue;
-			// slug вида `verse/start`; currentSlug — `start`. Приводим к одному виду.
-			const slugWithoutVerse = slug.replace(/^verse\//, '').toLowerCase();
-			if (slugWithoutVerse === currentSlug) continue;
+			// slug — плоский basename (например, `start`), currentSlug — тоже.
+			if (slug === currentSlug) continue;
 
 			let found = false;
 			for (const m of src.matchAll(LINK_RE)) {
@@ -107,11 +108,11 @@ if (currentSlug) {
 			}
 			if (!found) continue;
 
-			// Находим соответствующую запись в коллекции, чтобы взять заголовок.
-			const post = versePosts.find((p) => p.id.replace(/^verse\//, '').toLowerCase() === slugWithoutVerse);
+			// Находим соответствующую запись в коллекции по плоскому slug.
+			const post = versePosts.find((p) => p.id.replace(/^verse\//, '').split('/').pop()!.toLowerCase() === slug);
 			backlinks.push({
-				title: post?.data.title?.trim() || slugWithoutVerse.split('/').pop() || slugWithoutVerse,
-				href: `${base}verse/${slugWithoutVerse}/`,
+				title: post?.data.title?.trim() || slug,
+				href: `${base}verse/${slug}/`,
 			});
 		}
 	}

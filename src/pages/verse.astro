@@ -47,7 +47,8 @@ const categoryList = [...cats.entries()].sort((a, b) => {
 });
 
 function href(id: string): string {
-	return `${base}verse/${id.replace(/^verse\//, '').toLowerCase()}/`;
+	const slug = id.replace(/^verse\//, '').split('/').pop()!.toLowerCase();
+	return `${base}verse/${slug}/`;
 }
 ---
 

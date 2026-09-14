@@ -37,13 +37,15 @@ export function resolveSlug(href) {
 	if (ASSET_EXT.test(noAnchor)) return null; // картинки/файлы — не вики-ссылки
 
 	const cleaned = noAnchor
-		.replace(/\\/g, '/')
-		.replace(/^\.\//, '')
-		.replace(/^((\.\.\/)+)/, '')
-		.replace(/^verse\//, '')
-		.replace(/\.(mdx?)$/i, '')
-		.replace(/\/+$/, '');
-	if (!cleaned) return null;
+			.replace(/\\/g, '/')
+			.replace(/^\.\/+/, '')
+			.replace(/^(\.\.\/)+/, '')
+			.replace(/^verse\//, '')
+			.replace(/\.(mdx?)$/i, '')
+			.replace(/\/+$/, '')
+			.split('/')
+			.pop(); // Плоский slug — только basename, без вложенных папок
+		if (!cleaned) return null;
 
-	return cleaned.split('/').filter(Boolean).map(encodeURIComponent).join('/');
+		return encodeURIComponent(cleaned);
 }

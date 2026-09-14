@@ -1,0 +1,104 @@
+---
+// verse/categories/[tag].astro — динамическая страница категории по тегу.
+// Фильтрует все заметки из verse/, у которых в тегах есть [tag],
+// и выводит их аккуратным списком в фирменном стиле.
+import { getCollection } from 'astro:content';
+import BaseHead from '../../../components/BaseHead.astro';
+import Header from '../../../components/Header.astro';
+import { SITE_TITLE } from '../../../consts';
+import { postDescription, postTitle, sortPosts } from '../../../lib/posts';
+
+const base = (import.meta.env.BASE_URL || '').replace(/\/$/, '') + '/';
+
+export async function getStaticPaths() {
+	const all = await getCollection('blog');
+	const notes = all.filter((p) => p.id.startsWith('verse/'));
+
+	const tags = new Set<string>();
+	for (const p of notes) {
+		const t = p.data.tags;
+		const arr = Array.isArray(t) ? t : t ? [t] : [];
+		for (const tag of arr) {
+			const clean = String(tag).trim();
+			if (clean) tags.add(clean);
+		}
+	}
+
+	return [...tags].sort((a, b) => a.localeCompare(b, 'ru')).map((tag) => ({
+		params: { tag },
+	}));
+}
+
+type Props = { tag: string };
+const { tag } = Astro.params as Props;
+
+const all = await getCollection('blog');
+const notes = all
+	.filter((p) => p.id.startsWith('verse/'))
+	.filter((p) => {
+		const t = p.data.tags;
+		const arr = Array.isArray(t) ? t : t ? [t] : [];
+		return arr.some((x) => String(x).trim() === tag);
+	});
+
+sortPosts(notes);
+---
+
+<!doctype html>
+<html lang="ru">
+	<head>
+		<BaseHead
+			title={`Категория «${tag}» · ${SITE_TITLE}`}
+			description={`Страницы сети Verse, помеченные тегом «${tag}» — ${notes.length} ${notes.length === 1 ? 'запись' : notes.length < 5 ? 'записи' : 'записей'}.`}
+		/>
+	</head>
+	<body class="min-h-screen bg-[#171717] text-zinc-200 antialiased">
+		<Header />
+		<main class="mx-auto w-full max-w-4xl px-4 pb-16 pt-12">
+			<header class="mb-8">
+				<p class="mb-3 text-xs font-medium uppercase tracking-[0.35em] text-sky-300/80">Verse · Категории</p>
+				<h1 class="border-b-2 border-[#0080FF] pb-3 text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl">
+					Страницы в категории «{tag}»
+				</h1>
+				<div class="mt-4 inline-flex items-center gap-2 rounded-full border border-[#0080FF]/40 bg-[#0080FF]/10 px-3.5 py-1.5 text-sm text-white">
+					<span class="h-2 w-2 rounded-full bg-[#0080FF]"></span>
+					{notes.length} {notes.length === 1 ? 'запись' : notes.length < 5 ? 'записи' : 'записей'}
+				</div>
+			</header>
+
+			{notes.length === 0 ? (
+				<div class="rounded-2xl border border-white/[0.08] bg-[#1b1b1b] p-8 text-center text-zinc-500">
+					По тегу «{tag}» пока нет заметок.
+				</div>
+			) : (
+				<ul class="space-y-3">
+					{notes.map((p) => {
+						const slug = p.id.replace(/^verse\//, '').toLowerCase();
+						return (
+							<li>
+								<a
+									href={`${base}verse/${slug}/`}
+									class="group flex items-start justify-between gap-4 rounded-2xl border border-white/[0.08] bg-[#1b1b1b] px-5 py-4 transition-colors hover:border-[#0080FF]/50 hover:bg-[#141414]"
+								>
+									<div class="min-w-0">
+										<div class="text-base font-medium text-zinc-200 group-hover:text-white">
+											{postTitle(p)}
+										</div>
+										{p.data.description && (
+											<p class="mt-1 line-clamp-2 text-sm text-zinc-500">
+												{postDescription(p)}
+											</p>
+										)}
+									</div>
+									<span class="shrink-0 text-xs uppercase tracking-wider text-zinc-600">
+										{p.data.category || 'Разное'}
+									</span>
+								</a>
+							</li>
+						);
+					})}
+				</ul>
+			)}
+		</main>
+	</body>
+</html>

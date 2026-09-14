@@ -24,7 +24,9 @@ export default function wikiLinkHastPlugin(options = {}) {
 	};
 }
 
-function resolveSlug(href) {
+/** Разрешает произвольную внутреннюю ссылку в вики-слаг (без base).
+ *  Публикуется — используется и плагином, и сканером бэклинков. */
+export function resolveSlug(href) {
 	if (typeof href !== 'string') return null;
 	const raw = href.trim();
 	if (!raw || raw.startsWith('#') || raw.startsWith('/')) return null;

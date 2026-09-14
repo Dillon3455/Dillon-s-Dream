@@ -2,10 +2,14 @@
 // WikiLayout.astro — Fandom-подобный макет страниц Verse:
 // содержание (TOC) слева + читаемая статья + инфобокс справа.
 import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import { resolveSlug } from '../lib/wikiLinks.mjs';
 import BaseHead from '../components/BaseHead.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import { humanize } from '../lib/posts';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const base = (import.meta.env.BASE_URL || '').replace(/\/$/, '') + '/';
 
@@ -39,6 +43,79 @@ const finalDescription = props.description?.trim() || fallbackDesc;
 const mainDate = props.pubDate ?? props.date;
 
 const tags = Array.isArray(props.tags) ? props.tags : props.tags ? [props.tags] : [];
+
+// ---- Обратные ссылки (Backlinks): кто ссылается на эту заметку ----
+// Сканер работает на сыром markdown-тексте (без рендера), чтобы не зависеть
+// от внутреннего представления satteri. Использует тот же resolveSlug,
+// что и Hast-плагин — формат ссылок в итоговом HTML гарантированно совпадёт.
+// Файлы читаются через node:fs напрямую — это не зависит от internals
+// Astro-глоба и работает одинаково в dev и build.
+const CONTENT_DIR = path.resolve(process.cwd(), 'src/content/blog/verse');
+function walk(dir: string): string[] {
+	const out: string[] = [];
+	for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+		const full = path.join(dir, entry.name);
+		if (entry.isDirectory()) out.push(...walk(full));
+		else if (entry.isFile() && /\.(md|mdx)$/i.test(entry.name)) out.push(full);
+	}
+	return out;
+}
+const sourceFiles: Record<string, string> = {};
+for (const full of walk(CONTENT_DIR)) {
+	const rel = path.relative(CONTENT_DIR, full).replace(/\\/g, '/'); // e.g. dillons/dillon.md
+	const slug = rel.replace(/\.(md|mdx)$/i, ''); // e.g. dillons/dillon
+	try {
+		sourceFiles[`verse/${slug}`] = fs.readFileSync(full, 'utf-8');
+	} catch { /* skip */ }
+}
+const GLOB_KEYS = Object.keys(sourceFiles);
+if (GLOB_KEYS.length === 0) {
+	throw new Error('[backlinks] no verse files found under ' + CONTENT_DIR);
+}
+
+const currentSlug = (props.slug ?? '').replace(/^verse\//, '').toLowerCase();
+const allPosts = await getCollection('blog');
+const versePosts = allPosts.filter((p) => p.id.startsWith('verse/'));
+const backlinks: { title: string; href: string }[] = [];
+
+// Извлекает все markdown-ссылки [text](target) из текста.
+const LINK_RE = /\[[^\]]*\]\(([^)]+)\)/g;
+
+// Нормализует путь из glob-ключа к вики-слагу: `../../content/blog/verse/start.md` → `verse/start`.
+function slugFromGlobKey(key: string): string {
+	return key
+		.replace(/^\.\.\/+/, '')
+		.replace(/^.*?content\/blog\//, '')
+		.replace(/\.(mdx?)$/i, '')
+		.toLowerCase();
+}
+
+if (currentSlug) {
+		for (const [key, src] of Object.entries(sourceFiles)) {
+			const slug = slugFromGlobKey(key);
+			if (!slug) continue;
+			// slug вида `verse/start`; currentSlug — `start`. Приводим к одному виду.
+			const slugWithoutVerse = slug.replace(/^verse\//, '').toLowerCase();
+			if (slugWithoutVerse === currentSlug) continue;
+
+			let found = false;
+			for (const m of src.matchAll(LINK_RE)) {
+				if (resolveSlug(m[1])?.toLowerCase() === currentSlug) {
+					found = true;
+					break;
+				}
+			}
+			if (!found) continue;
+
+			// Находим соответствующую запись в коллекции, чтобы взять заголовок.
+			const post = versePosts.find((p) => p.id.replace(/^verse\//, '').toLowerCase() === slugWithoutVerse);
+			backlinks.push({
+				title: post?.data.title?.trim() || slugWithoutVerse.split('/').pop() || slugWithoutVerse,
+				href: `${base}verse/${slugWithoutVerse}/`,
+			});
+		}
+	}
+backlinks.sort((a, b) => a.title.localeCompare(b.title, 'ru'));
 const hasInfobox =
 	props.type || props.status || props.author || props.category || tags.length || mainDate || props.heroImage;
 ---
@@ -107,13 +184,51 @@ const hasInfobox =
 				</header>
 
 				<div class="article">
-					<slot />
-				</div>
+							<slot />
+						</div>
 
-				<footer class="mt-10 border-t border-white/[0.1] pt-4 text-xs text-zinc-600">
-					Категория: {props.category || 'Разное'} · из базы знаний Verse
-				</footer>
-			</article>
+						{backlinks.length > 0 && (
+							<div class="mt-8 rounded-xl border border-white/[0.08] bg-[#1b1b1b] px-5 py-4">
+								<div class="mb-2 flex items-center gap-2">
+									<span class="h-2 w-2 rounded-full bg-[#0080FF]"></span>
+									<h3 class="text-sm font-bold uppercase tracking-[0.15em] text-white">
+										На эту страницу ссылаются
+									</h3>
+								</div>
+								<ul class="space-y-1.5">
+									{backlinks.map((b) => (
+										<li>
+											<a
+												href={b.href}
+												class="group flex items-center gap-2 text-sm text-zinc-400 transition-colors hover:text-[#0080FF]"
+											>
+												<span class="h-1.5 w-1.5 shrink-0 rounded-full bg-[#0080FF]/50 group-hover:bg-[#0080FF]"></span>
+												<span class="group-hover:underline">{b.title}</span>
+											</a>
+										</li>
+									))}
+								</ul>
+							</div>
+						)}
+
+						{tags.length > 0 && (
+							<div class="mt-6 flex flex-wrap items-center gap-2">
+								<span class="text-xs font-semibold uppercase tracking-wider text-zinc-500">Категории:</span>
+								{tags.map((t) => (
+									<a
+										href={`${base}verse/categories/${encodeURIComponent(t)}/`}
+										class="inline-flex items-center gap-1.5 rounded-full border border-[#0080FF]/40 bg-[#0080FF]/10 px-3 py-1 text-xs font-medium text-sky-200 transition-colors hover:bg-[#0080FF]/20 hover:text-white"
+									>
+										{t}
+									</a>
+								))}
+							</div>
+						)}
+
+						<footer class="mt-8 border-t border-white/[0.1] pt-4 text-xs text-zinc-600">
+							Категория: {props.category || 'Разное'} · из базы знаний Verse
+						</footer>
+					</article>
 
 			{/* ===== Правая колонка: инфобокс ===== */}
 			{

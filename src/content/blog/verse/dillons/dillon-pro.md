@@ -2,7 +2,7 @@
 type: Dial
 title: Dillon Pro
 description: Свет в конце туннели
-tags: (Dial)
+tags: Dial
 ---
 Появился в 2017 году
 # Внешность

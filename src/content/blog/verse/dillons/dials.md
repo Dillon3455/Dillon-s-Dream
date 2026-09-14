@@ -1,5 +1,5 @@
 ---
-title: Dial
+title: Диалы
 tags: Dial
 ---
 

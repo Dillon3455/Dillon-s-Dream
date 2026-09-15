@@ -32,6 +32,7 @@ type Data = {
 		number?: string | number;
 	tags?: string | string[];
 	pubDate?: Date;
+	gender?: string;
 	date?: Date;
 	headings?: Heading[];
 };
@@ -120,7 +121,7 @@ if (currentSlug) {
 	}
 backlinks.sort((a, b) => a.title.localeCompare(b.title, 'ru'));
 const hasInfobox =
-	props.type || props.status || props.author || props.category || tags.length || mainDate || props.heroImage || props.number !== undefined;
+	props.type || props.status || props.author || props.category || tags.length || mainDate || props.heroImage || props.number !== undefined || props.gender;
 ---
 <!doctype html>
 <html lang="ru">
@@ -264,12 +265,18 @@ const hasInfobox =
 								</div>
 							)}
 							{props.category && (
-											<div class="flex items-start justify-between gap-3 border-b border-[#0080FF]/20 py-2.5">
-												<span class="shrink-0 text-xs font-semibold uppercase tracking-wider text-zinc-500">Категория</span>
-												<span class="text-right text-sm font-medium text-zinc-200">{props.category}</span>
-											</div>
-										)}
-																				{props.number !== undefined && props.number !== null && (
+												<div class="flex items-start justify-between gap-3 border-b border-[#0080FF]/20 py-2.5">
+													<span class="shrink-0 text-xs font-semibold uppercase tracking-wider text-zinc-500">Категория</span>
+													<span class="text-right text-sm font-medium text-zinc-200">{props.category}</span>
+												</div>
+											)}
+											{props.gender && (
+												<div class="flex items-start justify-between gap-3 border-b border-[#0080FF]/20 py-2.5">
+													<span class="shrink-0 text-xs font-semibold uppercase tracking-wider text-zinc-500">Гендер</span>
+													<span class="text-right text-sm font-medium text-zinc-200">{props.gender}</span>
+												</div>
+											)}
+											{props.number !== undefined && props.number !== null && (
 																					<div class="flex items-start justify-between gap-3 border-b border-[#0080FF]/20 py-2.5">
 																						<span class="shrink-0 text-xs font-semibold uppercase tracking-wider text-zinc-500">Номер</span>
 																						<span class="text-right text-sm font-medium text-zinc-200">{props.number}</span>

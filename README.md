@@ -1,63 +1,87 @@
-# Astro Starter Kit: Blog
+# Dillon's Dream
+
+> Личный сайт о вайбкодинге, Astro и творческой разработке с ИИ.
 
 ```sh
 npm create astro@latest -- --template blog
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## О проекте
 
-Features:
+Dillon's Dream — это сайт на Astro + Tailwind v4, где основное пространство занимает **Verse** — личная база знаний в формате Fandom-подобной вики. Каждая статья Verse имеет собственный инфобокс (Infobox) с метаданными: тип, статус, автор, категория, теги, номер, дата и гендер. Данные читаются из frontmatter Markdown-файлов, а если какого-то поля нет — Astro просто скрывает соответствующую секцию, и сборка не падает.
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and Open Graph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
+## Архитектура
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-├── public/
-├── src/
-│   ├── assets/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+```
+src/
+├── assets/           # шрифты Atkinson, логотип, placeholder-изображения
+├── components/        # Header, Footer, BaseHead, FormattedDate, BackToTop
+├── content/
+│   ├── blog/         # index.md, about.md, images/
+│   └── blog/verse/   # вики-заметки (dillons/, projects/, plans.md …)
+├── layouts/          # BlogPost.astro (обычный пост), WikiLayout.astro (вики-статья)
+├── lib/              # wikiLinks.mjs (вики-ссылки), posts.ts (утилиты), imagePathResolver.mjs
+├── consts.ts         # SITE_TITLE, SITE_DESCRIPTION
+└── pages/           # index.astro, about.astro, verse.astro, verse/[...slug].astro, verse/categories/[tag].astro, rss.xml.js
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+### Инфобокс (Infobox)
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Справа от текста вики-статьи отображается карточка с синей рамкой `#0080FF`. Она собирается из frontmatter:
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+| Поле        | Тип       | Описание                          |
+|-------------|-----------|-----------------------------------|
+| `title`     | string    | Заголовок статьи                  |
+| `category`  | string    | Категория                         |
+| `type`      | string    | Тип сущности (Гайд, персонаж …)   |
+| `status`    | string    | Статус (active, draft …)          |
+| `author`    | string    | Автор                             |
+| `tags`      | string[]  | Теги                              |
+| `number`    | string\|number | Номер/ID                     |
+| `gender`    | string    | Гендер                            |
+| `pubDate`   | date      | Дата публикации                   |
+| `heroImage` | image     | Изображение для карточки          |
 
-Any static assets, like images, can be placed in the `public/` directory.
+Все поля опциональны. Если ни одно из них не указано, инфобокс целиком скрывается.
 
-## 🧞 Commands
+### Вики-ссылки
 
-All commands are run from the root of the project, from a terminal:
+Внутри статей Verse можно использовать стандартные markdown-ссылки:
+- `[Текст](имя-файла)` → `/verse/имя-файла/`
+- `[Текст](../verse/имя)` → `/verse/имя/`
+- `[Текст](./имя.md)` → `/verse/имя/`
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+Плагин `wikiLinks.mjs` переписывает их в корректные маршруты. Сканер бэклинков автоматически находит все ссылки на текущую страницу и показывает их внизу статьи.
 
-## 👀 Want to learn more?
+### Obsidian-совместимость
 
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Заметки из Obsidian без даты/описания/фронтматтера не падают со сборки. Схема Zod «всеядная» — каждое поле `optional()`. Поддерживается альтернативное поле `date:` вместо `pubDate:`.
 
-## Credit
+## Запуск
 
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+```bash
+npm install
+npm run dev      # локальный сервер на localhost:4321
+npm run build    # сборка в ./dist/
+npm run preview  # предпросмотр сборки
+```
+
+## Технологии
+
+- **Astro 7** — статическая генерация, Content Collections, рендеринг Markdown/MDX
+- **Tailwind v4** — через `@tailwindcss/vite`
+- **Zod** — валидация frontmatter в `content.config.ts`
+- **satteri** — markdown-процессор с кастомными плагинами (вики-ссылки, пути к изображениям)
+- **@astrojs/sitemap, @astrojs/mdx, @astrojs/rss** — интеграции
+- **Atkinson** (шрифт) — локальные woff-файлы
+
+## Структура контента
+
+- **`src/content/blog/`** — обычные посты (index.md, about.md)
+- **`src/content/blog/verse/`** — вики-заметки, отображаемые в разделе Verse
+  - `dillons/` — персонажи (Dillon, Dillon Pro, Dillon Profi, DALAN, Dials, Fi)
+  - `projects/` — проекты (ArrowPlex, SurviPlex)
+  - `plans.md` — планы
+  - `start.md` — главная страница Verse
+  - `vibecoding-intro.md`, `vibecoding-rules.md` — гайды по вайбкодингу
+  - `astro-tailwind-blog.md` — заметка о стеке

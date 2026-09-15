@@ -6,6 +6,7 @@ import { defineConfig, fontProviders } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import { satteri } from '@astrojs/markdown-satteri';
 import wikiLinkHastPlugin from './src/lib/wikiLinks.mjs';
+import imagePathResolver from './src/lib/imagePathResolver.mjs';
 
 // GitHub Pages: site (username.github.io) + base (project subpath)
 const basePath = '/Dillon-s-Dream';
@@ -17,10 +18,11 @@ export default defineConfig({
   base: basePath,
 
   markdown: {
-    processor: satteri({
-      hastPlugins: [wikiLinkHastPlugin({ base: basePath })],
-    }),
-  },
+      processor: satteri({
+        mdastPlugins: [imagePathResolver()],
+        hastPlugins: [wikiLinkHastPlugin({ base: basePath })],
+      }),
+    },
   integrations: [mdx(), sitemap()],
 
   fonts: [

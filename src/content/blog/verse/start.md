@@ -9,3 +9,5 @@ description: Главная статья базы знаний Dillon's Dream.
 
 Дилоны: [Dillon](dillons/dillon), [Dillon Pro](dillons/dillon-pro.md), [Dillon Profi](dillons/dillon-profi.md), [DALAN](dillons/dalan.md)
 Проекты: [ArrowPlex](projects/arrowplex.md), [SurviPlex](projects/surviplex.md)
+
+Можешь так же ознакомиться о моих [планах](plans.md)

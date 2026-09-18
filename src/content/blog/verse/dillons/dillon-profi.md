@@ -9,4 +9,4 @@ gender: Male
 
 Внешной выглядит как [Dillon Pro](dillon-pro.md), им не является
 ### Персональная грамматика:
-![300](../../images/Pasted%20image%2020260915115249.png)
+![300](../../images/DillonProfiGrammer.png)

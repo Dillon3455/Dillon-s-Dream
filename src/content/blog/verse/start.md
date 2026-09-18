@@ -7,7 +7,7 @@ description: Главная статья базы знаний Dillon's Dream.
 Изучай вселенную переходя по страницам
 ## Основные страницы
 
-Дилоны: [Dillon](dillons/dillon), [Dillon Pro](dillons/dillon-pro.md), [Dillon Profi](dillons/dillon-profi.md), [DALAN](dillons/dalan.md)
-Проекты: [ArrowPlex](projects/arrowplex.md), [SurviPlex](projects/surviplex.md)
+Дилоны: [Dillon](dillons/dillon), [Dillon Pro](dillons/dillon-pro.md), [Dillon Profi](dillons/dillon-profi.md), [DALAN](dillons/dalan.md) 
+Проекты: [ArrowPlex](projects/arrowplex.md), [SurviPlex](projects/surviplex.md), [PENTALAND](projects/pentaland.md)
 
 Можешь так же ознакомиться о моих [планах](plans.md)

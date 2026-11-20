@@ -11,6 +11,7 @@ import Footer from '../components/Footer.astro';
 import { humanize } from '../lib/posts';
 import fs from 'node:fs';
 import path from 'node:path';
+import arrowplexTheme from '../assets/ArrowPlex Theme.webm';
 
 const base = (import.meta.env.BASE_URL || '').replace(/\/$/, '') + '/';
 
@@ -131,6 +132,13 @@ const hasInfobox =
 	</head>
 	<body class="min-h-screen flex flex-col bg-[#171717] text-zinc-200 antialiased">
 		<Header />
+		{isSurviplexDevlog && (
+			<div class="fixed bottom-4 right-4 z-50 rounded-xl bg-white/90 px-4 py-2 shadow-lg backdrop-blur-sm">
+				<audio controls autoplay loop class="h-8">
+					<source src={arrowplexTheme} type="audio/webm" />
+				</audio>
+			</div>
+		)}
 
 		{/* ===== Мобильная (схлопываемая) навигация ===== */}
 		<details class="mb-2 rounded-2xl border border-white/[0.08] bg-[#1b1b1b] px-4 py-3 lg:hidden">

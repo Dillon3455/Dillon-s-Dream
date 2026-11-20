@@ -28,6 +28,173 @@ a {
 	color: inherit;
 }
 
+/* ===== SurviPlex Devlog Theme ===== */
+.surviplex-theme {
+	color-scheme: light;
+	background-color: #ffffff !important;
+	color: #1a1a1a !important;
+}
+
+.surviplex-theme body {
+	background-color: #ffffff !important;
+	color: #1a1a1a !important;
+}
+
+/* Header — светло-красный */
+.surviplex-theme header {
+	background-color: #ff6b6b !important;
+}
+
+.surviplex-theme header a {
+	background-color: #ffffff !important;
+	color: #1a1a1a !important;
+}
+
+.surviplex-theme header a:hover {
+	background-color: #f5f5f5 !important;
+}
+
+.surviplex-theme header a svg {
+	filter: sepia(1) saturate(5) hue-rotate(330deg) brightness(1.1);
+}
+
+/* Main area — белый фон */
+.surviplex-theme main {
+	background-color: #ffffff !important;
+}
+
+/* Left sidebar (TOC) */
+.surviplex-theme aside {
+	background-color: #fff5f5 !important;
+	border-color: #ffcccc !important;
+}
+
+.surviplex-theme aside p.text-sky-300\/80 {
+	color: #cc6666 !important;
+}
+
+.surviplex-theme aside a {
+	color: #cc6666 !important;
+}
+
+.surviplex-theme aside a:hover {
+	color: #ff3333 !important;
+}
+
+/* Article */
+.surviplex-theme article {
+	background-color: #ffffff !important;
+	border-color: #ffcccc !important;
+}
+
+.surviplex-theme article h1,
+.surviplex-theme article h2,
+.surviplex-theme article h3,
+.surviplex-theme article h4 {
+	color: #1a1a1a !important;
+}
+
+.surviplex-theme article h1 {
+	border-color: #ff6b6b !important;
+}
+
+.surviplex-theme article p {
+	color: #333333 !important;
+}
+
+.surviplex-theme article a {
+	color: #cc6666 !important;
+}
+
+.surviplex-theme article a:hover {
+	color: #ff3333 !important;
+}
+
+.surviplex-theme article strong {
+	color: #1a1a1a !important;
+}
+
+/* Infobox */
+.surviplex-theme aside.rounded-2xl {
+	background-color: #fff5f5 !important;
+	border-color: #ff6b6b !important;
+}
+
+.surviplex-theme aside.rounded-2xl h2 {
+	color: #1a1a1a !important;
+}
+
+.surviplex-theme aside.rounded-2xl span.text-zinc-500 {
+	color: #999999 !important;
+}
+
+.surviplex-theme aside.rounded-2xl span.text-zinc-200 {
+	color: #333333 !important;
+}
+
+.surviplex-theme aside.rounded-2xl div.border-b {
+	border-color: #ffcccc !important;
+}
+
+/* Backlinks */
+.surviplex-theme article ~ div {
+	background-color: #fff5f5 !important;
+	border-color: #ffcccc !important;
+}
+
+.surviplex-theme article ~ div h3 {
+	color: #1a1a1a !important;
+}
+
+.surviplex-theme article ~ div a {
+	color: #cc6666 !important;
+}
+
+.surviplex-theme article ~ div a:hover {
+	color: #ff3333 !important;
+}
+
+/* Tags */
+.surviplex-theme article a[href*="/verse/categories/"] {
+	border-color: rgba(255, 107, 107, 0.4) !important;
+	background-color: rgba(255, 107, 107, 0.1) !important;
+	color: #cc6666 !important;
+}
+
+.surviplex-theme article a[href*="/verse/categories/"]:hover {
+	background-color: rgba(255, 107, 107, 0.2) !important;
+	color: #ff3333 !important;
+}
+
+/* Mobile TOC */
+.surviplex-theme details {
+	background-color: #fff5f5 !important;
+	border-color: #ffcccc !important;
+}
+
+.surviplex-theme details summary {
+	color: #333333 !important;
+}
+
+.surviplex-theme details a {
+	color: #cc6666 !important;
+}
+
+.surviplex-theme details a:hover {
+	color: #ff3333 !important;
+}
+
+/* Footer */
+.surviplex-theme footer {
+	background-color: #ffffff !important;
+	border-color: #ffcccc !important;
+}
+
+.surviplex-theme footer p,
+.surviplex-theme footer a {
+	color: #666666 !important;
+}
+
 /* ---- Рендер заметок (markdown из Obsidian) ---- */
 .article {
 	color: #d4d4d8;
@@ -146,4 +313,66 @@ a {
 .article code,
 .article pre {
 	font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+}
+
+/* SurviPlex theme overrides for article elements */
+.surviplex-theme .article h1,
+.surviplex-theme .article h2,
+.surviplex-theme .article h3,
+.surviplex-theme .article h4 {
+	color: #1a1a1a !important;
+}
+
+.surviplex-theme .article p {
+	color: #333333 !important;
+}
+
+.surviplex-theme .article a {
+	color: #cc6666 !important;
+}
+
+.surviplex-theme .article a:hover {
+	color: #ff3333 !important;
+}
+
+.surviplex-theme .article strong {
+	color: #1a1a1a !important;
+}
+
+.surviplex-theme .article li::marker {
+	color: #cc6666 !important;
+}
+
+.surviplex-theme .article blockquote {
+	border-color: #ff6b6b !important;
+	color: #666666 !important;
+}
+
+.surviplex-theme .article code {
+	background: rgba(255, 107, 107, 0.1) !important;
+	border-color: rgba(255, 107, 107, 0.2) !important;
+	color: #cc6666 !important;
+}
+
+.surviplex-theme .article pre {
+	background: #fff5f5 !important;
+	border-color: #ffcccc !important;
+}
+
+.surviplex-theme .article pre code {
+	color: #333333 !important;
+}
+
+.surviplex-theme .article hr {
+	border-color: #ffcccc !important;
+}
+
+.surviplex-theme .article table th,
+.surviplex-theme .article table td {
+	border-color: #ffcccc !important;
+}
+
+.surviplex-theme .article table th {
+	background: #fff5f5 !important;
+	color: #1a1a1a !important;
 }

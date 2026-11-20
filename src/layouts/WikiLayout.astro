@@ -77,6 +77,7 @@ if (GLOB_KEYS.length === 0) {
 }
 
 const currentSlug = (props.slug ?? '').replace(/^verse\//, '').toLowerCase();
+const isSurviplexDevlog = currentSlug.startsWith('episode-') || (props.category ?? '').toLowerCase() === 'devlog' && (props.type ?? '').toLowerCase() === 'дневник';
 const allPosts = await getCollection('blog');
 const versePosts = allPosts.filter((p) => p.id.startsWith('verse/'));
 const backlinks: { title: string; href: string }[] = [];
@@ -124,7 +125,7 @@ const hasInfobox =
 	props.type || props.status || props.author || props.category || tags.length || mainDate || props.heroImage || props.number !== undefined || props.gender;
 ---
 <!doctype html>
-<html lang="ru">
+<html lang="ru" class:list={[isSurviplexDevlog && 'surviplex-theme']}>
 	<head>
 		<BaseHead title={finalTitle} description={finalDescription} />
 	</head>

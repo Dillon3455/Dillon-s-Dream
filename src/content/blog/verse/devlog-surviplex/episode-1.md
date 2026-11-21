@@ -5,7 +5,7 @@ category: devlog
 type: дневник
 status: active
 author: Dillon
-tags: [devlog, game, survival]
+tags: [devlog]
 pubDate: 2026-11-21
 ---
 

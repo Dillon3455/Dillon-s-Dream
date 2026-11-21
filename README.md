@@ -2,10 +2,6 @@
 
 > Личный сайт о вайбкодинге, Astro и творческой разработке с ИИ.
 
-```sh
-npm create astro@latest -- --template blog
-```
-
 ## О проекте
 
 Dillon's Dream — это сайт на Astro + Tailwind v4, где основное пространство занимает **Verse** — личная база знаний в формате Fandom-подобной вики. Каждая статья Verse имеет собственный инфобокс (Infobox) с метаданными: тип, статус, автор, категория, теги, номер, дата и гендер. Данные читаются из frontmatter Markdown-файлов, а если какого-то поля нет — Astro просто скрывает соответствующую секцию, и сборка не падает.
@@ -18,7 +14,7 @@ src/
 ├── components/        # Header, Footer, BaseHead, FormattedDate, BackToTop
 ├── content/
 │   ├── blog/         # index.md, about.md, images/
-│   └── blog/verse/   # вики-заметки (dillons/, projects/, plans.md …)
+│   └── blog/verse/   # вики-заметки (dillons/, projects/, devlog-surviplex/, plans.md …)
 ├── layouts/          # BlogPost.astro (обычный пост), WikiLayout.astro (вики-статья)
 ├── lib/              # wikiLinks.mjs (вики-ссылки), posts.ts (утилиты), imagePathResolver.mjs
 ├── consts.ts         # SITE_TITLE, SITE_DESCRIPTION
@@ -57,6 +53,10 @@ src/
 
 Заметки из Obsidian без даты/описания/фронтматтера не падают со сборки. Схема Zod «всеядная» — каждое поле `optional()`. Поддерживается альтернативное поле `date:` вместо `pubDate:`.
 
+### Темы оформления
+
+Для страниц девлога SurviPlex добавлена отдельная светлая тема с светло-красными акцентами. Тема автоматически применяется к эпизодам девлога.
+
 ## Запуск
 
 ```bash
@@ -80,8 +80,7 @@ npm run preview  # предпросмотр сборки
 - **`src/content/blog/`** — обычные посты (index.md, about.md)
 - **`src/content/blog/verse/`** — вики-заметки, отображаемые в разделе Verse
   - `dillons/` — персонажи (Dillon, Dillon Pro, Dillon Profi, DALAN, Dials, Fi)
-  - `projects/` — проекты (ArrowPlex, SurviPlex)
+  - `projects/` — проекты (ArrowPlex, SurviPlex, PENTALAND, Golden Route)
+  - `devlog-surviplex/` — дневник разработки SurviPlex
   - `plans.md` — планы
   - `start.md` — главная страница Verse
-  - `vibecoding-intro.md`, `vibecoding-rules.md` — гайды по вайбкодингу
-  - `astro-tailwind-blog.md` — заметка о стеке

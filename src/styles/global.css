@@ -376,3 +376,22 @@ a {
 	background: #fff5f5 !important;
 	color: #1a1a1a !important;
 }
+
+/* Fix for large article area — proper spacing and alignment */
+.surviplex-theme article {
+	min-height: 0 !important;
+	padding: 2rem 2.5rem !important;
+}
+
+.surviplex-theme article .article {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.surviplex-theme article .article > :first-child {
+	margin-top: 0 !important;
+}
+
+.surviplex-theme article .article > :last-child {
+	margin-bottom: 0 !important;
+}

@@ -16,14 +16,6 @@ description: Личный сайт о вайбкодинге, Astro и твор�
 Исследуйте мою вселенную:
 - [Персонажи](verse/start) — Dillon, Dillon Pro, Dillon Profi, DALAN, Dials, Fi
 - [Проекты](verse/start) — ArrowPlex, SurviPlex, PENTALAND
-- [Гайды по вайбкодингу](verse/vibecoding-intro) — правила и подходы
-
-## 🔧 Технологии
-
-Этот сайт работает на:
-- **Astro 7** — статическая генерация
-- **Tailwind v4** — стилизация
-- **Verse** — Fandom-подобная вики система
 
 ---
 

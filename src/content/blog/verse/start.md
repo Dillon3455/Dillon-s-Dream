@@ -1,6 +1,9 @@
 ---
+title: Добро пожаловать в Dillon-Verse
+description: Главная статья базы знаний Dillon's Dream.
+---
 
-## title: Добро пожаловать в Dillon-Verse description: Главная статья базы знаний Dillon's Dream.
+# Добро пожаловать в Verse
 
 Добро пожаловать в **Verse** — мою личную базу знаний на сайте Dillon's Dream!
 
